@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilancio di Gloria</title>
+<style>
+:root{
+  --bg:#fff7fb; --card:#ffffff; --text:#4b3f48; --muted:#8d7c88;
+  --positive:#d9799f; --negative:#8f82c7; --accent:#c58ab0;
+  --accent2:#f1c6d9; --border:#f0dce7; --shadow:0 8px 24px rgba(160,105,135,.12);
+  --gold:#d6ae68; --soft:#fff0f6; --soft2:#f5f1ff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#fff8fb 0%,#f8f3fa 55%,#f4f0fb 100%);
+  color:var(--text);
+}
+header{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#d98eaf,#b98ac2);
+  color:#fff;padding:30px 18px 28px;text-align:center;
+  box-shadow:0 5px 20px rgba(150,90,125,.18)
+}
+header:before,header:after{
+  content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.14)
+}
+header:before{width:180px;height:180px;left:-60px;top:-100px}
+header:after{width:150px;height:150px;right:-45px;bottom:-90px}
+header h1{margin:0;font-size:31px;font-weight:750;letter-spacing:.3px;position:relative}
+header p{margin:8px 0 0;color:#fff5fa;font-size:15px;position:relative}
+main{max-width:1100px;margin:24px auto;padding:0 16px}
+.card{
+  background:rgba(255,255,255,.94);border:1px solid var(--border);
+  border-radius:20px;padding:21px;margin-bottom:18px;box-shadow:var(--shadow)
+}
+h2{margin:0 0 17px;font-size:21px;color:#654f60}
+h2:before{margin-right:8px}
+.card:nth-of-type(1) h2:before{content:"✿"}
+.card:nth-of-type(2) h2:before{content:"♡"}
+.card:nth-of-type(3) h2:before{content:"☷"}
+label{display:block;font-weight:700;margin-bottom:7px;color:#6a5663}
+input,textarea,select{
+  width:100%;padding:12px 13px;border:1px solid #ead5e1;border-radius:12px;
+  font:inherit;background:#fffafb;color:var(--text);outline:none;
+  transition:.2s;box-shadow:inset 0 1px 2px rgba(120,80,110,.03)
+}
+input:focus,textarea:focus,select:focus{
+  border-color:#d79ab8;box-shadow:0 0 0 3px rgba(215,154,184,.14)
+}
+textarea{min-height:105px;resize:vertical}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+button{
+  border:0;border-radius:12px;padding:10px 16px;font-weight:750;cursor:pointer;
+  background:linear-gradient(135deg,#c88bae,#b77fae);color:#fff;
+  box-shadow:0 4px 10px rgba(150,95,130,.13);transition:.18s
+}
+button:hover{transform:translateY(-1px);filter:brightness(.98)}
+button.secondary{background:#a79aa5}
+button.positive{background:linear-gradient(135deg,#d887a8,#cb6f99)}
+button.negative{background:linear-gradient(135deg,#978bd0,#8274bd)}
+button.delete{background:#a87387}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{
+  padding:18px 14px;border-radius:16px;text-align:center;
+  background:linear-gradient(135deg,#fff0f6,#fff9fc);
+  border:1px solid #f1d9e5;color:#765c6b
+}
+.stat:nth-child(2){background:linear-gradient(135deg,#f4f0ff,#fbf9ff);border-color:#e3dcf5}
+.stat:nth-child(3){background:linear-gradient(135deg,#fff7e9,#fffdf7);border-color:#f0e2c6}
+.stat strong{display:block;font-size:31px;margin-top:6px;color:#5d4a57}
+.filters{display:flex;gap:10px;flex-wrap:wrap}
+.entry{
+  border:1px solid var(--border);border-left:6px solid var(--accent);
+  border-radius:14px;padding:16px;margin:12px 0;background:#fff;
+  box-shadow:0 3px 12px rgba(150,100,130,.06)
+}
+.entry.positive{border-left-color:var(--positive);background:linear-gradient(90deg,#fff9fc,#fff)}
+.entry.negative{border-left-color:var(--negative);background:linear-gradient(90deg,#fbfaff,#fff)}
+.entry-head{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.entry h3{margin:0;font-size:18px;color:#5d4957}
+.entry .date{color:var(--muted);font-size:13px;margin-top:3px}
+.entry p{margin:9px 0 0;white-space:pre-wrap;line-height:1.5}
+.entry-actions{margin-top:12px;display:flex;gap:8px}
+.entry-actions button{padding:7px 11px;font-size:13px}
+.empty{color:var(--muted);text-align:center;padding:25px}
+.note{
+  font-size:13px;color:var(--muted);line-height:1.55;text-align:center;
+  margin:2px 0
+}
+@media(max-width:700px){
+  header{padding:25px 14px}
+  header h1{font-size:25px}
+  .grid,.stats{grid-template-columns:1fr}
+  main{padding:0 10px;margin-top:12px}
+  .card{padding:15px;border-radius:17px}
+  .filters button{flex:1}
+}
+</style>
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="gloria-icon-180.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d98eaf">
+</head>
+<body>
+<header>
+  <h1>IL BILANCIO DI GLORIA</h1>
+  <p>Riflessioni, ricordi e cose positive della vita</p>
+</header>
+
+<main>
+<section class="card">
+  <h2>Nuova registrazione</h2>
+  <div class="grid">
+    <div>
+      <label for="tipo">Tipo</label>
+      <select id="tipo">
+        <option value="positive">Cose positive</option>
+        <option value="negative">Errori della vita</option>
+      </select>
+    </div>
+    <div>
+      <label for="data">Data</label>
+      <input id="data" type="date">
+    </div>
+    <div>
+      <label for="titolo">Titolo</label>
+      <input id="titolo" type="text" placeholder="Inserisci un titolo">
+    </div>
+    <div>
+      <label for="ricordo">Ricordo</label>
+      <input id="ricordo" type="text" placeholder="Una parola o una breve nota">
+    </div>
+  </div>
+  <div style="margin-top:16px">
+    <label for="descrizione">Descrizione</label>
+    <textarea id="descrizione" placeholder="Scrivi qui la descrizione..."></textarea>
+  </div>
+  <div class="actions">
+    <button id="saveBtn" class="positive">SALVA REGISTRAZIONE</button>
+    <button id="cancelBtn" class="secondary" style="display:none">ANNULLA MODIFICA</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Bilancio</h2>
+  <div class="stats">
+    <div class="stat">Cose positive<strong id="positiveCount">0</strong></div>
+    <div class="stat">Errori della vita<strong id="negativeCount">0</strong></div>
+    <div class="stat">Bilancio<strong id="balance">0</strong></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Elenco registrazioni</h2>
+  <div class="filters">
+    <button data-filter="all">♡ TUTTE</button>
+    <button data-filter="positive" class="positive">♥ SOLO POSITIVE</button>
+    <button data-filter="negative" class="negative">☾ SOLO ERRORI</button>
+  </div>
+  <div id="list"></div>
+</section>
+
+<section class="card">
+  <p class="note">
+    I dati vengono salvati automaticamente nel browser tramite memoria locale.
+    Modifica ed eliminazione sono disponibili per ogni registrazione.
+  </p>
+</section>
+</main>
+
+<script>
+const KEY='bilancio_gloria_v1';
+let records=[];
+let editId=null;
+let currentFilter='all';
+
+const $=id=>document.getElementById(id);
+
+function load(){
+  try{ records=JSON.parse(localStorage.getItem(KEY)||'[]'); }
+  catch(e){ records=[]; }
+  if(!$('data').value) $('data').value=new Date().toISOString().slice(0,10);
+  render();
+}
+function persist(){ localStorage.setItem(KEY,JSON.stringify(records)); }
+
+function resetForm(){
+  editId=null;
+  $('tipo').value='positive';
+  $('data').value=new Date().toISOString().slice(0,10);
+  $('titolo').value='';
+  $('ricordo').value='';
+  $('descrizione').value='';
+  $('saveBtn').textContent='SALVA REGISTRAZIONE';
+  $('cancelBtn').style.display='none';
+}
+
+function save(){
+  const titolo=$('titolo').value.trim();
+  const descrizione=$('descrizione').value.trim();
+  if(!titolo && !descrizione){
+    alert('Inserisci almeno un titolo o una descrizione.');
+    return;
+  }
+  const item={
+    id: editId || Date.now().toString(),
+    tipo:$('tipo').value,
+    data:$('data').value || new Date().toISOString().slice(0,10),
+    titolo,
+    ricordo:$('ricordo').value.trim(),
+    descrizione
+  };
+  if(editId){
+    const i=records.findIndex(x=>x.id===editId);
+    if(i>=0) records[i]=item;
+  }else records.push(item);
+  persist(); resetForm(); render();
+}
+
+function edit(id){
+  const r=records.find(x=>x.id===id); if(!r)return;
+  editId=id;
+  $('tipo').value=r.tipo; $('data').value=r.data;
+  $('titolo').value=r.titolo; $('ricordo').value=r.ricordo;
+  $('descrizione').value=r.descrizione;
+  $('saveBtn').textContent='SALVA MODIFICA';
+  $('cancelBtn').style.display='inline-block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function remove(id){
+  if(!confirm('Vuoi eliminare questa registrazione?')) return;
+  records=records.filter(x=>x.id!==id);
+  persist(); render();
+}
+
+function render(){
+  const p=records.filter(x=>x.tipo==='positive').length;
+  const n=records.filter(x=>x.tipo==='negative').length;
+  $('positiveCount').textContent=p;
+  $('negativeCount').textContent=n;
+  $('balance').textContent=p-n;
+
+  let arr=records.filter(x=>currentFilter==='all'||x.tipo===currentFilter);
+  arr.sort((a,b)=>(b.data||'').localeCompare(a.data||'') || b.id.localeCompare(a.id));
+  const list=$('list');
+  if(!arr.length){list.innerHTML='<div class="empty">Nessuna registrazione presente.</div>';return;}
+  list.innerHTML=arr.map(r=>{
+    const label=r.tipo==='positive'?'COSA POSITIVA':'ERRORE DELLA VITA';
+    const date=r.data?new Date(r.data+'T00:00:00').toLocaleDateString('it-IT'):'';
+    return `<article class="entry ${r.tipo}">
+      <div class="entry-head">
+        <div><h3>${esc(r.titolo||label)}</h3><div class="date">${date} · ${label}</div></div>
+      </div>
+      ${r.ricordo?`<div style="margin-top:7px"><strong>Ricordo:</strong> ${esc(r.ricordo)}</div>`:''}
+      ${r.descrizione?`<p>${esc(r.descrizione)}</p>`:''}
+      <div class="entry-actions">
+        <button onclick="edit('${r.id}')">MODIFICA</button>
+        <button class="delete" onclick="remove('${r.id}')">ELIMINA</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+function esc(s){
+  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+$('saveBtn').addEventListener('click',save);
+$('cancelBtn').addEventListener('click',resetForm);
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{
+  currentFilter=b.dataset.filter; render();
+}));
+load();
+</script>
+</body>
+</html>

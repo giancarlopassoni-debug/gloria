@@ -1,0 +1,20 @@
+{
+  "name": "Il Bilancio di Gloria",
+  "short_name": "Gloria",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff7fb",
+  "theme_color": "#d98eaf",
+  "icons": [
+    {
+      "src": "gloria-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "gloria-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
